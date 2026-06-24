@@ -1,0 +1,141 @@
+CERN OPEN HARDWARE LICENCE Version 2 – Weakly Reciprocal ("CERN-OHL-W v2")
+
+Preamble
+
+CERN (European Organization for Nuclear Research) has decided to make this licence for open hardware available under the CERN Open Hardware Licence Version 2 – Weakly Reciprocal.
+
+This licence is intended to facilitate the dissemination of designs for open hardware: it applies in particular to electronic designs, mechanical designs, hardware description language designs and documentation.
+
+"Hardware" includes:
+
+1. Tangible physical objects, including printed circuit board layouts, schematics;
+2. Specifications, designs and documentation relating to the appearance, construction and functionality of tangible physical objects;
+3. Computer code and software;
+4. Any combination of the above.
+
+This licence concerns the right to copy, modify and distribute Hardware and is independent of the right to operate the Hardware or the right to offer services based upon the Hardware.
+
+You may copy, modify and distribute this Hardware and its derivatives under the terms of this licence provided that the modifications are themselves licensed under the CERN-OHL-W v2 licence or a licence of greater reciprocality, as for example (but not limited to) the CERN-OHL-S (CERN-OHL-W v2 – Strongly Reciprocal).
+
+You may use this Hardware as the basis for a larger product, and distribute that product under terms of your choice, as long as you do not prevent the recipients of that product from accessing its design files and you do not impose any conditions on their use of the design files other than conditions on the implementation of the design files.
+
+1. Definitions
+
+In this Licence, the following terms have the following meanings:
+
+"Licence" means this CERN-OHL-W v2.
+
+"Documentation" means any and all designs, drawings, schematics, hardware description language (HDL) source code, netlists, hardware specifications, documentation, textual and graphic materials describing Hardware, its properties, its variants and its application.
+
+"Document" refers to any written, drawn, electronic or encoded information document provided as part of or attached to the Hardware.
+
+"Hardware" means any tangible object, including but without limitation a printed circuit board, whether in tangible or intangible form. It may include related Documentation.
+
+"Licensee" or "You" means any natural or legal person exercising rights under this Licence.
+
+"Licensor" or "We" means any natural or legal person that creates or modifies Hardware covered by this Licence.
+
+"Derivative" means any Hardware that results from any modification, translation, abbridgement, condensation, expansion, collection, aggregation or any other alteration of Hardware. Specifically, Derivatives include:
+
+(a) any subset or superset of the elements of a Piece of Hardware;
+(b) any variation of a Piece of Hardware, including changes to the physical dimensions, material, material finish, colours, acoustics, functionality or performance parameters which are not merely cosmetic;
+(c) reinterpretations of unspecified details of a Piece of Hardware;
+(d) other Hardware that shares organization principles, functionality, or configuration information with a Piece of Hardware.
+
+Derivatives do not include changes of material which do not affect the design or performance of the Hardware, mere replacement of components with equivalents, repainting, relabelling or routine replacement of standard commodities.
+
+"Convey" means to communicate to the public or distribute.
+
+2. Applicability
+
+2.1 This Licence governs the use, copying, modification and Conveyance of Hardware, and the documentation associated with Hardware.
+
+2.2 This Licence applies to any Hardware in which a notice has been placed stating that it is governed by the terms and conditions of this CERN-OHL-W v2 (hereinafter "CERN-OHL-W v2 Hardware") and to any Derivative of such Hardware.
+
+2.3 CERN-OHL-W v2 Hardware is provided "as is" and the Licensor has no obligation to provide support, maintenance, updates, modifications or new versions of the Hardware.
+
+2.4 Should CERN-OHL-W v2 Hardware not meet your requirements, you assume the risk of obtaining any other material that may be required.
+
+2.5 You may use this Hardware in your own designs and you may Convey Derivatives of this Hardware, subject to the terms and conditions of this Licence.
+
+3. Copying, Modifying and Conveying Hardware
+
+3.1 You may copy or modify the Hardware. When you modify Hardware you shall, before Conveying the result to others:
+
+(a) retain in the modified Hardware any and all notices, references, and attributions that were present in the original Hardware, particularly the attribution, patent, and trademark notices;
+
+(b) identify the nature of the modifications made to that Hardware or Derivative thereof (e.g. a list of the Home Page references to diff files, a description of the changes or a description of the design).
+
+3.2 When you Convey Derivatives of CERN-OHL-W v2 Hardware, you shall:
+
+(a) License the Derivative under CERN-OHL-W v2 or a licence of greater reciprocality (such as CERN-OHL-S v2);
+
+(b) include, in each Documentation file and in the Hardware where practicable, a notice stating that the Hardware has been modified, and identifying the nature of the modifications;
+
+(c) Convey, under the terms of this Licence, the Documentation, associated interface definitions and other materials, including (where available) the complete source code of any Digital Hardware and the tools and software, if any, necessary to understand and modify the Hardware.
+
+(d) ensure that the recipient of the Derivative is able to obtain the complete Documentation of the Hardware without hindrance.
+
+3.3 You may Convey Hardware (modified or not) under the terms of the CERN-OHL-W v2 even if it is embedded in a larger product which is not governed by CERN-OHL-W v2, provided that:
+
+(a) the larger product remains usable when the open hardware element is removed from it;
+
+(b) the open hardware design files and documentation remain accessible, and the recipient retains access to them;
+
+(c) you do not attempt to restrict by means of access controls, patents or any other means the recipient's right to access or use the design files and documentation relating to the open hardware element, nor do you restrict their right to modify it or create Derivatives from it.
+
+4. Intellectual Property Rights
+
+4.1 Authorship of Hardware shall be acknowledged and respected in all applicable media and editions of the Derivatives thereof.
+
+4.2 Patent grants
+
+The Licensor hereby grants you a worldwide, royalty-free, non-exclusive license, which includes (but is not limited to) the right to make, have made, use, sell, import, and distribute products based on the CERN-OHL-W v2 Hardware and the right to make or have made any Derivatives of the CERN-OHL-W v2 Hardware, insofar as any such patent is reasonably necessary to utilise the CERN-OHL-W v2 Hardware, to the extent that such patent is owned or licensable by the Licensor.
+
+4.3 If you initiate a patent infringement claim against any entity (including a cross-claim or counterclaim in a lawsuit) alleging that the CERN-OHL-W v2 Hardware or a Derivative thereof constitutes direct or contributory patent infringement, then any patent licenses granted to you under Section 4.2 of this Licence shall terminate as of the date such claim is filed.
+
+5. General
+
+5.1 Duration
+
+The rights granted under this Licence shall continue perpetually, provided that you continue to comply with the terms and conditions of this Licence. If you fail to comply with the terms and conditions of this Licence, then the rights granted to you under this Licence shall terminate automatically.
+
+5.2 Governing Law
+
+This Licence and the legal relationship between the Licensor and you shall be governed by the laws of the jurisdiction in which the Licensor resides.
+
+5.3 Dispute resolution
+
+Any dispute arising out of or in connection with this Licence shall be finally settled by arbitration in accordance with the WIPO Arbitration Rules. The arbitration shall be conducted by a single arbitrator appointed in accordance with said Rules. The arbitration shall take place in Geneva, Switzerland, and the award shall be final and binding on the parties.
+
+5.4 Entire Agreement
+
+This Licence constitutes the entire agreement between the Licensor and you as to CERN-OHL-W v2 Hardware and supercedes any prior or contemporaneous agreements, representations or understandings whether written or oral relating to such subject matter.
+
+5.5 Severability
+
+If any provision of this Licence is held by a court of competent jurisdiction to be invalid or unenforceable, that provision of this Licence shall be severed and the remainder of this Licence shall continue in full force and effect.
+
+5.6 No Waiver
+
+The failure of the Licensor to enforce any right or provision of this Licence shall not constitute a waiver of such right or provision.
+
+5.7 Notice
+
+You may not assign this Licence without the prior consent of the Licensor. Any purported assignment without such consent shall be void.
+
+5.8 Interpretation
+
+Words and phrases shall be construed so as to give effect to the economic and legal substance of the transaction and not merely to its form. Specifically, the parties intend that the provision of Hardware and Documentation be treated as a single transaction.
+
+6. Disclaimer of Warranties
+
+CERN-OHL-W v2 HARDWARE IS PROVIDED "AS IS" BY THE LICENSOR WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE LICENSOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE HARDWARE OR THE USE OR OTHER DEALINGS IN THE HARDWARE.
+
+7. Limitation of Liability
+
+EXCEPT AS EXPRESSLY PROVIDED IN THIS LICENCE AND TO THE EXTENT PERMITTED BY APPLICABLE LAW, THE LICENSOR SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OR OTHER DEALINGS IN THE HARDWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---
+
+This licence shall be governed by and construed in accordance with the laws of the place where the creator of the Hardware resides, provided that all disputes arising out of or relating to this licence shall be subject to the exclusive jurisdiction of the courts of that place, unless otherwise agreed to in writing by both parties, in which case the disputes shall be resolved in accordance with the procedures set forth in Section 5.3.
