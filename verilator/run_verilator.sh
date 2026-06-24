@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cp ../firmware/build/verilator/firmware.hex firmware.hex
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
 
+pushd "${ROOT_DIR}/firmware"
+cp build/verilator/firmware.hex "${ROOT_DIR}/verilator/firmware.hex"
+popd
+
+pushd "${SCRIPT_DIR}"
 verilator \
   --cc \
   --exe sim_main.cpp \
@@ -15,3 +21,4 @@ verilator \
 
 ./obj_dir/Vtop
 printf '\n'
+popd

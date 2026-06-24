@@ -1,0 +1,16 @@
+{
+  "name": "retro-riscv",
+  "build": {
+    "dockerfile": "../Dockerfile",
+    "context": ".."
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/rv32-bios,type=bind,consistency=cached",
+  "workspaceFolder": "/rv32-bios",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.makefile-tools"
+      ]
+    }
+  }
+}

@@ -62,7 +62,7 @@ MAP  := $(BUILD_DIR)/bios.map
 CFLAGS += \
     -march=$(ARCH) \
     -mabi=$(ABI) \
-    -O2 \
+    -O3 \
     -Wall \
     -Wextra \
     -ffreestanding \
@@ -111,14 +111,6 @@ copyhex: $(HEX)
 
 qemu: TARGET=qemu
 qemu: $(ELF)
-	qemu-system-riscv32 \
-		-machine virt \
-		-nographic \
-		-bios none \
-		-kernel $(ELF)
-
-debug: TARGET=qemu
-debug: $(ELF)
 	qemu-system-riscv32 \
 		-machine virt \
 		-nographic \
