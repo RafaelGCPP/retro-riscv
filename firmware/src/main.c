@@ -1,7 +1,11 @@
 #include "uart.h"
 
-#ifndef HEARTBEAT_COUNT
+#ifdef VERILATOR
+#define HEARTBEAT_COUNT 1000u
+#define simulation_exit(n) do { *(volatile uint32_t *)0x100000fcu = (uint32_t)(n); } while(0)
+#else 
 #define HEARTBEAT_COUNT 10000000u
+#define simulation_exit(n) do { (void)(n); } while(0)
 #endif
 
 
@@ -38,6 +42,7 @@ int main(void)
         }
 
         uart_puts("alive\n");
+        simulation_exit(0);
     }
 
     return 0;

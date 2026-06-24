@@ -31,7 +31,7 @@ else ifeq ($(TARGET),tang20k)
 else ifeq ($(TARGET),verilator)
     LDSCRIPT := $(LINKER_DIR)/tang20k.ld
     UART_SRC := $(SRC_DIR)/uart_tang_simple.c
-    CFLAGS += -DHEARTBEAT_COUNT=1000u
+    CFLAGS += -DVERILATOR=1
 else
     $(error Unknown TARGET=$(TARGET). Use TARGET=qemu or TARGET=tang20k)
 endif

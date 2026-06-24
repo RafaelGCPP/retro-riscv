@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Rode este script no diretório onde estão:
-#   top.sv memory.v picorv32.v uart-tx.v.v firmware.hex sim_main.cpp
+#   top.sv memory-ram.v memory-rom.v picorv32.v uart-tx.v firmware.hex sim_main.cpp
 
 verilator \
   --cc \
@@ -12,7 +12,7 @@ verilator \
   --sv \
   -DVERILATOR \
   -Wno-fatal \
-  top.sv memory_fixed.v picorv32.v uart-tx.v.v
+  top.sv memory-ram.v memory-rom.v picorv32.v uart-tx.v
 
 ./obj_dir/Vtop
 printf '\n'

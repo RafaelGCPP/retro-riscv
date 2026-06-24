@@ -41,10 +41,10 @@ module top (
 
 
     // ------------------------------------------------------------
-    // Decodificação MMIO simples
+    // Decodificação MMIO para UART 
     // ------------------------------------------------------------
 
-    localparam logic [31:0] UART_TX_ADDR = 32'h1000_0000;
+    localparam logic [31:0] UART_TX_ADDR = 32'h1000_0000; // UART
 
     logic uart_select;
     logic uart_write;
@@ -57,16 +57,72 @@ module top (
     assign uart_data   = mem_wdata[7:0];
     assign uart_enable = uart_write && mem_wstrb[0] && uart_idle;
 
+    // ------------------------------------------------------------
+    // Decodificação MMIO para pseudo-device Verilator 
+    // ------------------------------------------------------------
+    localparam logic [31:0] SIM_EXIT_ADDR = 32'h1000_00fc; // pseudo-device para o verilator
+
+    logic sim_exit_select;
+    logic sim_exit_write;
+
+    `ifdef VERILATOR
+        assign sim_exit_select = mem_valid && (mem_addr == SIM_EXIT_ADDR);
+        assign sim_exit_write  = sim_exit_select && (mem_wstrb != 4'b0000);
+    `else
+        assign sim_exit_select = 1'b0;
+        assign sim_exit_write  = 1'b0;
+    `endif
 
     // ------------------------------------------------------------
-    // Sinais RAM/ROM
+    // Mapa de memória
     // ------------------------------------------------------------
 
-    logic        memory_valid;
-    logic        memory_ready;
-    logic [31:0] memory_rdata;
+    localparam logic [31:0] ROM_BASE = 32'h0000_0000;
+    localparam logic [31:0] ROM_SIZE = 32'h0000_4000;  // 16 KiB
 
-    assign memory_valid = mem_valid && !uart_select;
+    localparam logic [31:0] RAM_BASE = 32'h0001_0000;
+    localparam logic [31:0] RAM_SIZE = 32'h0000_2000;  // 8 KiB
+
+    logic rom_select;
+    logic ram_select;
+    logic unmapped_select;
+
+    assign rom_select =
+        mem_valid &&
+        !uart_select &&
+        !sim_exit_select &&
+        (mem_addr >= ROM_BASE) &&
+        (mem_addr <  ROM_BASE + ROM_SIZE);
+
+    assign ram_select =
+        mem_valid &&
+        !uart_select &&
+        !sim_exit_select &&
+        (mem_addr >= RAM_BASE) &&
+        (mem_addr <  RAM_BASE + RAM_SIZE);
+
+    assign unmapped_select =
+        mem_valid &&
+        !uart_select &&
+        !sim_exit_select &&
+        !rom_select &&
+        !ram_select;
+
+
+    // ------------------------------------------------------------
+    // Sinais ROM
+    // ------------------------------------------------------------
+
+    logic        rom_ready;
+    logic [31:0] rom_rdata;
+
+
+    // ------------------------------------------------------------
+    // Sinais RAM
+    // ------------------------------------------------------------
+
+    logic        ram_ready;
+    logic [31:0] ram_rdata;
 
 
     // ------------------------------------------------------------
@@ -156,32 +212,42 @@ module top (
 
 
     // ------------------------------------------------------------
-    // RAM/ROM
+    // ROM
     // ------------------------------------------------------------
 
-    memory #(
-        .ROM_ADDR_WIDTH (12),                 // 2^12 words = 16 KiB
-        .RAM_ADDR_WIDTH (11),                 // 2^12 words = 16 KiB
+    memory_rom #(
+        .ADDR_WIDTH (12),                 // 2^12 words = 16 KiB
+        .INIT_FILE  ("firmware.hex")
+    ) rom0 (
+        .clk    (clk),
+        .resetn (resetn),
 
-        .ROM_BASE       (32'h0000_0000),
-        .ROM_SIZE       (32'h0000_4000),
+        .valid  (rom_select),
+        .addr   (mem_addr - ROM_BASE),
 
-        .RAM_BASE       (32'h0001_0000),
-        .RAM_SIZE       (32'h0000_2000),
+        .rdata  (rom_rdata),
+        .ready  (rom_ready)
+    );
 
-        .ROM_INIT_FILE  ("firmware.hex"),
-        .RAM_INIT_FILE  ("")
-    ) mem0 (
-        .clk        (clk),
-        .resetn     (resetn),
 
-        .mem_valid  (memory_valid),
-        .mem_addr   (mem_addr),
-        .mem_wdata  (mem_wdata),
-        .mem_wstrb  (mem_wstrb),
+    // ------------------------------------------------------------
+    // RAM
+    // ------------------------------------------------------------
 
-        .mem_rdata  (memory_rdata),
-        .mem_ready  (memory_ready)
+    memory_ram #(
+        .ADDR_WIDTH (11),                 // 2^11 words = 8 KiB
+        .INIT_FILE  ("")
+    ) ram0 (
+        .clk    (clk),
+        .resetn (resetn),
+
+        .valid  (ram_select),
+        .addr   (mem_addr - RAM_BASE),
+        .wdata  (mem_wdata),
+        .wstrb  (mem_wstrb),
+
+        .rdata  (ram_rdata),
+        .ready  (ram_ready)
     );
 
 
@@ -211,6 +277,27 @@ module top (
         .uart_tx_data (uart_data)
     );
 
+    // ------------------------------------------------------------
+    // simulation pseudo-device
+    // ------------------------------------------------------------
+
+
+    `ifdef VERILATOR
+        always_ff @(posedge clk) begin
+            if (resetn && sim_exit_write) begin
+                if (mem_wdata == 32'h0000_0000) begin
+                    $display("");
+                    $display("[VERILATOR] SIM_EXIT: success");
+                    $finish;
+                end else begin
+                    $display("");
+                    $fatal(1, "[VERILATOR] SIM_EXIT: failure code 0x%08x", mem_wdata);
+                end
+            end
+        end
+    `endif
+
+
 
     // ------------------------------------------------------------
     // Mux de resposta do barramento
@@ -221,15 +308,26 @@ module top (
         mem_rdata = 32'h0000_0000;
 
         if (mem_valid) begin
-            if (uart_select) begin
+            if (sim_exit_select) begin
+                // Pseudo-device de simulação.
+                // Responde imediatamente.
+                mem_ready = 1'b1;
+                mem_rdata = 32'h0000_0000;
+            end else if (uart_select) begin
                 // Leitura da UART retorna bit 0 = transmissor livre.
                 // Escrita espera a UART ficar livre.
                 mem_ready = (mem_wstrb == 4'b0000) || uart_idle;
                 mem_rdata = {31'b0, uart_idle};
+            end else if (rom_select) begin
+                mem_ready = rom_ready;
+                mem_rdata = rom_rdata;
+            end else if (ram_select) begin
+                mem_ready = ram_ready;
+                mem_rdata = ram_rdata;
             end else begin
-                // Todo o resto vai para ROM/RAM.
-                mem_ready = memory_ready;
-                mem_rdata = memory_rdata;
+                // Acesso fora do mapa: responde para não travar a CPU.
+                mem_ready = 1'b1;
+                mem_rdata = 32'hDEAD_BEEF;
             end
         end
     end
