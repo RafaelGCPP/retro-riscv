@@ -33,7 +33,7 @@ else ifeq ($(TARGET),verilator)
     UART_SRC := $(SRC_DIR)/uart_tang_simple.c
     CFLAGS += -DVERILATOR=1
 else
-    $(error Unknown TARGET=$(TARGET). Use TARGET=qemu or TARGET=tang20k)
+    $(error Unknown TARGET=$(TARGET). Use TARGET=verilator, TARGET=qemu or TARGET=tang20k)
 endif
 
 # ------------------------------------------------------------
