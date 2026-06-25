@@ -44,7 +44,7 @@ parameter   STOP_BITS       = 1;
 
 //
 // Number of clock cycles per uart bit.
-localparam       CYCLES_PER_BIT     = BIT_P / CLK_P;
+localparam       CYCLES_PER_BIT     = (CLK_HZ + BIT_RATE/2) / BIT_RATE;;
 
 //
 // Size of the registers which store sample counts and bit durations.

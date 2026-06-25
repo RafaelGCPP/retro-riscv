@@ -10,14 +10,14 @@ int main(int argc, char **argv) {
     // Cada iteração abaixo gera um ciclo completo de clock.
     const vluint64_t max_cycles = 50000000;
 
-    top.clk = 0;
+    top.clk27mhz = 0;
     top.eval();
 
     for (vluint64_t cycle = 0; cycle < max_cycles && !Verilated::gotFinish(); ++cycle) {
-        top.clk = 0;
+        top.clk27mhz = 0;
         top.eval();
 
-        top.clk = 1;
+        top.clk27mhz = 1;
         top.eval();
     }
 
