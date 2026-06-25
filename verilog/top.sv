@@ -1,7 +1,30 @@
 module top (
-    input  logic clk,
+    input  logic clk27mhz,
     output logic uart_txd
 );
+
+    logic lock;
+
+    `ifdef VERILATOR
+        localparam FREQ=27_000_000;
+        localparam FIRMWARE_FILE = "../firmware/build/verilator/firmware.hex";
+
+        logic clk;
+        assign clk = clk27mhz;
+        assign lock = 1'b1;
+    `else
+
+        localparam FREQ=101_250_000; 
+        localparam FIRMWARE_FILE = "../firmware/build/tang20k/firmware.hex";
+
+        Gowin_rPLL pll(
+        .clkout(clk_x4),    // 405 Mhz
+        .clkoutp(clk_ck),   // 90-degree shifted
+        .clkoutd(clk),      // 101.25 Mhz
+        .clkin(clk27mhz),     // 27 Mhz
+        .lock(lock)
+        ); 
+    `endif
 
     // ------------------------------------------------------------
     // Reset interno simples por contador
@@ -11,8 +34,11 @@ module top (
     logic resetn;
 
     always_ff @(posedge clk) begin
-        if (reset_cnt != 8'hff)
+        if (!lock) begin
+            reset_cnt <= 8'h00;
+        end else if (reset_cnt != 8'hff) begin
             reset_cnt <= reset_cnt + 1'b1;
+        end
     end
 
     assign resetn = (reset_cnt == 8'hff);
@@ -216,7 +242,7 @@ module top (
 
     memory_rom #(
         .ADDR_WIDTH (12),                 // 2^12 words = 16 KiB
-        .INIT_FILE  ("firmware.hex")
+        .INIT_FILE  (FIRMWARE_FILE)
     ) rom0 (
         .clk    (clk),
         .resetn (resetn),
@@ -264,7 +290,7 @@ module top (
     `endif
 
     uart_tx #(
-        .CLK_HZ       (27_000_000),
+        .CLK_HZ       (FREQ),
         .BIT_RATE     (115_200),
         .PAYLOAD_BITS (8)
     ) uart0 (
