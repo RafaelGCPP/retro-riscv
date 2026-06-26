@@ -1,9 +1,10 @@
 ---
 name: Feature Intake
-description: Template de intake para novas features (PO -> Solution Architect)
+about: Register new issues for the solution architect
 title: "[FEATURE] "
-labels: ["feature", "intake"]
-assignees: []
+labels: ''
+assignees: ''
+
 ---
 
 ## Feature Name
