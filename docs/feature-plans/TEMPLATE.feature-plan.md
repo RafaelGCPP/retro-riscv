@@ -5,7 +5,7 @@
 - Out of scope
 - Constraints
 - Assumptions
-- Open questions
+- Issue discussion references for clarifications and decisions
 
 # 01-solution-plan.md
 - Proposed approach

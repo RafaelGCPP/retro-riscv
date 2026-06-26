@@ -4,6 +4,7 @@
 ## Goal
 ## Scope
 ## Constraints
+## Issue Discussion References
 ## Current Architecture Touchpoints
 ## Options Considered
 ## Recommended Option
