@@ -63,3 +63,5 @@ Post exactly one validation comment and apply outcome labels:
 - Validation result is explicit (approved, needs revision, or architecture conflict).
 - Correct labels are applied.
 - Validation comment is posted with clear rationale and next step.
+- If triggered from an issue context, always publish the final result in the issue thread (never chat-only).
+- If ambiguity exists about next action, default to validation-only and ask for clarification in the issue comment.
