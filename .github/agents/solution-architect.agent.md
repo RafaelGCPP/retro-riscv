@@ -45,6 +45,8 @@ Required files:
 - No speculative full-system redesign.
 - No implementation detail beyond execution-critical depth.
 - Always include documentation update tasks in rollout.
+- No PR creation without explicit PO authorization ("AUTORIZO PR").
+- No chat-only final output for issue-originated tasks.
 
 ## Done Criteria
 A feature plan is done when:
