@@ -6,67 +6,63 @@ labels: ''
 assignees: ''
 
 ---
-
-> O `solution-architect` deve usar **comentários da issue** para dúvidas em aberto ou pedidos de esclarecimento.
-> Responda no mesmo thread para manter o histórico de decisão fora dos documentos de arquitetura.
-
 ## Feature Name
-<!-- Nome curto da feature -->
+<!-- Short feature name -->
 
 ## Business Goal
-<!-- Por que essa feature importa agora? Qual é o valor entregue? -->
+<!-- Why does this feature matter now? What value does it deliver? -->
 
 ## Priority
-<!-- Selecione uma opção: P0 / P1 / P2 -->
-- [ ] P0 - Crítico
-- [ ] P1 - Alto
-- [ ] P2 - Médio
+<!-- Select one option: P0 / P1 / P2 -->
+- [ ] P0 - Critical
+- [ ] P1 - High
+- [ ] P2 - Medium
 
 ## In Scope
-<!-- O que está incluído? -->
+<!-- What is included? -->
 - 
 
 ## Out of Scope
-<!-- O que explicitamente NÃO faz parte? -->
+<!-- What explicitly is NOT included? -->
 -
 
 ## Constraints
 ### Time
-<!-- Deadline ou janela de tempo? -->
+<!-- Deadline or time window? -->
 
 ### Compatibility
-<!-- Restrições de compatibilidade com versões, hardware, etc -->
+<!-- Compatibility constraints with versions, hardware, etc -->
 
 ### Hardware/Resource
-<!-- Limitações de hardware ou recursos -->
+<!-- Hardware or resource limitations -->
 
 ### Tooling
-<!-- Restrições de ferramentas ou dependências -->
+<!-- Tool or dependency restrictions -->
 
 ## Dependencies or Related Features
 ### Current Features
-<!-- Features existentes que esta depende? -->
+<!-- Existing features this depends on? -->
 -
 
 ### Possible Future Features
-<!-- Features futuras relacionadas? -->
+<!-- Related future features? -->
 -
 
 ## Acceptance Expectations
-<!-- Critérios de aceite - o que precisa estar pronto? -->
+<!-- Acceptance criteria - what needs to be ready? -->
 - 
 
 ## Requested Output Depth
-<!-- Qual nível de detalhe esperado? -->
+<!-- What level of detail is expected? -->
 - [ ] High-level only
 - [ ] High-level + execution-minimum detail
 - [ ] Full architectural detail
 
 ## Agent Interaction
-<!-- Se o arquiteto precisar de mais contexto, a conversa deve continuar nos comentários desta issue -->
-- [ ] Autorizo follow-ups do `solution-architect` nos comentários desta issue
-- [ ] Vou responder dúvidas em aberto diretamente nesta issue
+<!-- If the architect needs more context, the conversation should continue in the comments of this issue -->
+- [ ] I authorize follow-ups from `solution-architect` in the comments of this issue
+- [ ] I will respond to open questions directly on this issue
 
 ---
 **Created by:** <!-- GitHub username -->  
-**Date:** <!-- Data de criação -->
+**Date:** <!-- Creation date -->

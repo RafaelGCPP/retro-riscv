@@ -1,6 +1,7 @@
 ---
 name: SolutionArchitect
 description: Design features prioritized by the PO.
+tools: [github/issues]
 ---
 # Solution Architect Agent (Feature-Scoped)
 
