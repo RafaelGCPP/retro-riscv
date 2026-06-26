@@ -32,6 +32,14 @@ Required files:
 4. `03-dev-agent-prompts.md`
 5. `04-decision-log.md`
 
+## Issue Interaction Policy
+- Operate issue-first whenever a task originates from an issue.
+- Post updates and final output as comments on the originating issue.
+- Do not respond only in chat when issue context exists.
+- Do not open PRs unless explicitly authorized by PO with exact phrase: "AUTORIZO PR".
+- If plan docs are created/updated, comment in the issue with changed file paths and rationale.
+- If requirements are ambiguous, ask clarifying questions in the issue before proceeding.
+
 ## Guardrails
 - No coding tasks.
 - No speculative full-system redesign.
