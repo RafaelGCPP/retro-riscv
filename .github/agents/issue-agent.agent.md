@@ -4,7 +4,7 @@
 # To make this agent available, merge this file into the default repository branch.
 # For format details, see: https://gh.io/customagents/config
 
-name:Issue agent 
+name: Issue agent 
 description:  um agente para testar a funcionalidade  
 ---
 

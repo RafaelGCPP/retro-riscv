@@ -1,8 +1,6 @@
 ---
 name: AgileMaster
 description: Validates issues before the solution-architect handoff.
-tools:
-  - github-pessoal/*
 ---
 
 # AgileMaster Agent (Issue Validation Gate)
