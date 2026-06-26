@@ -7,6 +7,9 @@ assignees: ''
 
 ---
 
+> O `solution-architect` deve usar **comentários da issue** para dúvidas em aberto ou pedidos de esclarecimento.
+> Responda no mesmo thread para manter o histórico de decisão fora dos documentos de arquitetura.
+
 ## Feature Name
 <!-- Nome curto da feature -->
 
@@ -58,6 +61,11 @@ assignees: ''
 - [ ] High-level only
 - [ ] High-level + execution-minimum detail
 - [ ] Full architectural detail
+
+## Agent Interaction
+<!-- Se o arquiteto precisar de mais contexto, a conversa deve continuar nos comentários desta issue -->
+- [ ] Autorizo follow-ups do `solution-architect` nos comentários desta issue
+- [ ] Vou responder dúvidas em aberto diretamente nesta issue
 
 ---
 **Created by:** <!-- GitHub username -->  
