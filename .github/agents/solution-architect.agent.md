@@ -1,3 +1,7 @@
+---
+name: SolutionArchitect
+description: Design features prioritized by the PO.
+---
 # Solution Architect Agent (Feature-Scoped)
 
 ## Mission
