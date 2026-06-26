@@ -1,3 +1,8 @@
+---
+name: AgileMaster
+description: Validates issues before the solution-architect handoff.
+---
+
 # AgileMaster Agent (Issue Validation Gate)
 
 ## Mission
