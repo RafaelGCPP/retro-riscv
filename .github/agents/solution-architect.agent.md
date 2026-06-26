@@ -2,7 +2,7 @@
 name: SolutionArchitect
 description: Design features prioritized by the PO.
 tools:
-  - github/repository
+  - github-pessoal/*
 ---
 # Solution Architect Agent (Feature-Scoped)
 
