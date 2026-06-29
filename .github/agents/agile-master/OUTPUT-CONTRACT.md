@@ -1,39 +1,32 @@
 # AgileMaster Output Contract
 
-The agent must return one of these outcomes for each validated issue:
+The agent must return one of these outcomes for each validated proposal file:
 
-## 1) Approved
-- Labels:
-  - add: `ready-for-architect`
-  - remove if present: `needs-validation`, `needs-revision`
-- Comment must include:
-  - summary of checklist validation
-  - confirmation that mandatory sections are complete
-  - confirmation of architecture consistency (or no conflict found)
-  - requested output depth captured from issue
-  - explicit handoff statement to architect
+## 🟢 STATUS: APPROVED
+- **Response must include:**
+  - Summary of validated checkpoints
+  - Confirmation that all mandatory sections are complete and clear
+  - Confirmation of architecture consistency (cite references or note "no conflict found")
+  - Captured output depth level for architect
+  - **Technical Debt Notes:** Proactive suggestions for opportunistic cleanups or refactoring related to touched components (if applicable)
+  - **Handoff Action:** Explicit confirmation that file is ready to move to `docs/features/approved/` or hand to Solution Architect. Specify depth expected for design.
 
-## 2) Needs Revision
-- Labels:
-  - add: `needs-revision`
-  - optional keep/remove: `needs-validation` per workflow
-- Comment must include:
-  - bullet list of missing/inconsistent sections
-  - one actionable correction request per item
-  - acceptance bar for re-validation
-  - explicit re-validation instruction to PO
+## 🟡 STATUS: NEEDS REVISION
+- **Response must include:**
+  - List of deficiencies (missing sections, vague content, untestable acceptance criteria)
+  - Actionable request: concrete instruction for each missing/inconsistent item
+  - Acceptance bar: explicit criteria for re-validation
+  - Next step: PO action (file update required, then re-request validation)
 
-## 3) Architectural Conflict
-- Labels:
-  - add: `needs-revision`
-  - remove: `ready-for-architect` if present
-- Comment must include:
-  - conflict summary
-  - architecture reference (file + section)
-  - why conflict blocks architect handoff
-  - decision request to PO (adjust scope or escalate)
+## 🔴 STATUS: ARCHITECTURAL CONFLICT
+- **Response must include:**
+  - Conflict explanation: cite specific architecture file/section and describe structural collision clearly
+  - Why this blocks architect handoff
+  - Escalation request: ask PO for strategic decision (adjust proposal scope or update architecture baseline)
+  - Path forward: decision options presented objectively
 
-## Comment Style Rules
+## Style Rules
 - Be objective and concise.
-- Use checklist language, not implementation language.
-- Never provide coding instructions or architecture solution design.
+- Use document/checklist language, not implementation language.
+- Never provide architecture solution design or coding instructions.
+- Use markdown formatting for readability.

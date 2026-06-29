@@ -1,28 +1,33 @@
 # AgileMaster Validation Checklist
 
 ## Structural Completeness
-- [ ] Feature Name preenchido.
-- [ ] Business Goal preenchido e objetivo.
-- [ ] Priority selecionada (P0/P1/P2).
-- [ ] In Scope definido com itens concretos.
-- [ ] Out of Scope definido com limites explícitos.
-- [ ] Constraints registradas (time, compatibility, hardware/resource, tooling).
-- [ ] Acceptance Expectations preenchidas.
-- [ ] Requested Output Depth selecionado.
+- [ ] Proposal file location: `docs/features/proposals/{name}`
+- [ ] Feature Name section populated and clear.
+- [ ] Business Goal section populated with objective value statement.
+- [ ] Priority clearly specified (P0/P1/P2).
+- [ ] In Scope section with concrete, verifiable items.
+- [ ] Out of Scope section with explicit boundary statements.
+- [ ] Constraints section complete (time, compatibility, hardware/resource, tooling).
+- [ ] Acceptance Expectations section with measurable criteria.
+- [ ] Requested Output Depth explicitly declared.
 
 ## Quality and Clarity
-- [ ] Business Goal explica "por que agora" com valor claro.
-- [ ] In Scope e Out of Scope não se sobrepõem.
-- [ ] Acceptance Expectations são observáveis e testáveis.
-- [ ] Dependências atuais e futuras foram consideradas.
-- [ ] Priority é coerente com urgência e valor.
+- [ ] Business Goal explains "why now" with clear business value.
+- [ ] In Scope and Out of Scope do not overlap.
+- [ ] Acceptance Expectations are observable and testable (not implementation-specific).
+- [ ] Dependencies section identifies current required features and anticipated future impacts.
+- [ ] Priority is coherent with stated urgency and value.
 
 ## Architecture Consistency
-- [ ] Não conflita com `docs/architecture/current-architecture.md`.
-- [ ] Não conflita com `docs/architecture/hw-sw-contract.md`.
-- [ ] Impacto no mapa do repositório é compreensível (`repository-map.md`).
+- [ ] No conflict with `docs/architecture/current-architecture.md`.
+- [ ] No conflict with `docs/architecture/hw-sw-contract.md`.
+- [ ] Repository impact is comprehensible via `docs/architecture/repository-map.md`.
+
+## Technical Debt & Hotspot Analysis
+- [ ] Proposal identifies if it touches code hotspots or legacy structures.
+- [ ] Opportunistic cleanup suggestions captured in validation notes (if applicable).
 
 ## Validation Outcome
-- [ ] Comentário único de validação publicado.
-- [ ] Labels de saída aplicadas corretamente.
-- [ ] Próximo passo para PO explícito.
+- [ ] Single validation response generated.
+- [ ] Approval status clearly indicated (🟢 APPROVED / 🟡 NEEDS REVISION / 🔴 ARCHITECTURAL CONFLICT).
+- [ ] Next action for PO or architect explicitly stated.

@@ -1,16 +1,17 @@
-# Intake Inputs (Issue Validation)
+# Intake Inputs (File-Based Proposal Validation)
 
 ## Trigger Context
-- Validation request source:
-  - [ ] Agent mention in issue comment
-  - [ ] `needs-validation` label
+- Validation request source: Feature proposal file in `docs/features/proposals/`
+- Proposal file path:
+- Proposal file name:
 
-## Issue Metadata
-- Issue URL:
-- Issue title:
-- Issue labels:
+## Proposal Metadata
+- Feature Name (extracted from file):
+- Current file status:
+  - [ ] New proposal (not yet in approved/)
+  - [ ] Under revision
 
-## Mandatory Sections from Feature Intake
+## Mandatory Sections from Feature Proposal
 - Feature Name:
 - Business Goal:
 - Priority (P0/P1/P2):
@@ -27,13 +28,20 @@
 - Acceptance Expectations:
 - Requested Output Depth:
 
+## Architecture References Checked
+- `docs/architecture/current-architecture.md`
+- `docs/architecture/hw-sw-contract.md`
+- `docs/architecture/repository-map.md`
+
 ## Validation Decision
 - Outcome:
-  - [ ] Approved
-  - [ ] Needs Revision
-  - [ ] Architectural Conflict
+  - [ ] 🟢 Approved
+  - [ ] 🟡 Needs Revision
+  - [ ] 🔴 Architectural Conflict
 
 ## Required Feedback Payload
-- Missing/inconsistent items:
+- Validation status (emoji + status name):
+- Missing/inconsistent sections:
 - Architecture references used:
-- Suggested PO next step:
+- Technical debt notes (if applicable):
+- Recommended next action:
