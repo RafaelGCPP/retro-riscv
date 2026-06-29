@@ -1,0 +1,88 @@
+## Feature Name
+UART RX Channel
+
+
+## Business Goal
+In the early stages of development, the only available I/O will be the serial port. While we can currently write messages, it is not possible to request user interaction, which will hinder the development of the monitor functionality.
+
+## Priority
+<!-- Select an option: P0 / P1 / P2 -->
+- [X] P0 - Critical
+- [ ] P1 - High
+- [ ] P2 - Medium
+
+## In Scope
+- perform necessary adjustments in start.S to move the .data section to RAM
+    - the .data section is built into the firmware image hex file, during compilation. Since it corresponds to globally initialized variables, it must copied to the RAM. 
+- Creation of firmware functions to receive on the serial port
+- Function to check character availability in the buffer
+- Integration test: replace the infinite loop "> alive" with a simple command that responds "alive"
+- Update the architecture documents, accordingly to the new feature(current-architecture.md, hw-sw-contract.md, repository-map.md)
+- This feature requires an update to the hw-sw-contract.md due to UART register reorganization.
+
+## Out of Scope
+<!-- What is explicitly NOT part of this? -->
+- Implement the assembly monitor
+- Modifications to the dev container to allow final FPGA synthesis
+
+## Constraints
+### Time
+<!-- Deadline or time window? -->
+- This feature must be implemented before adding DDR3 support
+- This feature must be ready before developing a memory monitor
+
+### Compatibility
+<!-- Compatibility constraints with versions, hardware, etc. -->
+- Maintain compatibility by using the latest versions of System Verilog and Verilog
+- C23 and C++23 preferred for firmware and simulation.
+- The firmware must have conditional compilation to support the UART 16550 used by QEMU or the Verilog UARTRX for Verilator and FPGA
+
+### Hardware/Resource
+<!-- Hardware or resource limitations -->
+- It must be possible to use it in QEMU for firmware testing, i.e., the QEMU simulation must have the same behavior as in Verilator.
+- Consider that it must also work in Verilator for a systemic test, i.e., Verilator must be able to compile and run the simulation
+- Prepare for GoWin synthesis: functionalities developed exclusively to support Verilator and QEMU simulations must be correctly delimited by conditional compilation
+- use the verilog uart rx module already in the codebase for Verilator/FPGA.
+- Currently, UART TX uses one address to write the character, and reading it returns the status. The new functionality should have 3 registers: one for writing the character to the UART, one for reading the RX buffer, and one for the UART status. 
+    - Writing to the UART TX register (currently 0x1000_0000) will transmit the character
+    - Reading the UART TX register will result in 0x00
+    - Writing the (new) UART_RX register will do nothing (discard)
+    - Reading the (new) UART_RX register will return the last character available in the RX buffer of the UART
+    - A new read-only UART_STATUS register must reflect the RX and TX status bits (received_and_valid, busy, etc...)
+- The new registers and bitmap must be proposed by the solution architect.
+ 
+### Tooling
+<!-- Tooling constraints or dependencies -->
+- QEMU
+- Verilator
+- GoWin IDE (depends on user action. No command line yet in the dev container)
+
+## Dependencies or Related Features
+### Current Features
+<!-- Existing features this depends on? -->
+- UART TX must be present
+
+### Possible Future Features
+<!-- Related future features? -->
+- Memory monitor
+
+
+## Acceptance Expectations
+<!-- Acceptance criteria - what needs to be ready? -->
+- In QEMU and Verilator, the firmware must print the banner and wait for a specific user key (e.g., 'h').
+- The > prompt should echo the typed command (e.g., 'h'), skip a line, and print "alive", as a sort of mock for what the monitor help will be.
+
+## Requested Output Depth
+<!-- What level of detail is expected? -->
+- [ ] High-level only
+- [ ] High-level + execution-minimum detail
+- [x] Full architectural detail
+
+## Agent Interaction
+<!-- If the architect needs more context, the conversation should continue in the comments of this issue -->
+- [X ] I authorize follow-ups from the `solution-architect` in the comments of this issue
+- [ X] I will answer open questions directly in this issue
+
+---
+**Created by:** RafaelGCPP
+**Date:** 26/Jun/2026
