@@ -40,6 +40,7 @@ Nas primeiras fases do desenvolvimento o único I/O disponível será a porta se
 - Considerar que deve funcionar também no Verilator para um teste sistêmico, ou seja, o Verilator deve ser capaz de compilar e executar a simulação
 - Preparar para a síntese no GoWin: as funcionalidades desenvolvidas exclusivamente para suportar as simulações em verilator e qemu devem estar corretamente delimitadas por compilação condicional
 - utilizar o módulo  verilog uart rx já na base de código para verilator/FPGA. 
+- Hoje UART TX usa um endereço para escrever o caractere, cuja leitura retorna o status. A nova funcionalidade deverá ter 3 registradores: um para a escrita do caractere na UART, um para a leitura do buffer de RX e um para o status da UART. 
 
 ### Tooling
 <!-- Restrições de ferramentas ou dependências -->
