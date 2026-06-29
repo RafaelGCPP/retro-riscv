@@ -1,0 +1,58 @@
+## Feature Name
+DevContainer melhorado
+
+## Business Goal
+Permitir a sintese do bitstream no DevConteiner. Hoje dependo do GoWin IDE, o que impede automações
+
+## Priority
+<!-- Selecione uma opção: P0 / P1 / P2 -->
+- [ ] P0 - Crítico
+- [ ] P1 - Alto
+- [X] P2 - Médio
+
+## In Scope
+<!-- O que está incluído? -->
+- Identificar o ferramental a ser usado: FOSS? GoWin CLI?
+- Incluir na instalação do devConteiner algum ferramental para sintese do FPGA GoWin existente da Tang Prime 20k
+- Criar script Makefile e atualizar os Makefile necessários para a sintese.
+
+## Out of Scope
+<!-- O que explicitamente NÃO faz parte? -->
+- Modificações no firmware ou RTL do computador
+
+## Constraints
+### Time
+<!-- Deadline ou janela de tempo? -->
+
+### Compatibility
+<!-- Restrições de compatibilidade com versões, hardware, etc -->
+- O usuário deseja ainda ser capaz de utilizar o GoWin IDE caso necessário.
+
+### Hardware/Resource
+<!-- Limitações de hardware ou recursos -->
+
+### Tooling
+<!-- Restrições de ferramentas ou dependências -->
+
+## Dependencies or Related Features
+### Current Features
+<!-- Features existentes que esta depende? -->
+-
+
+### Possible Future Features
+<!-- Features futuras relacionadas? -->
+-
+
+## Acceptance Expectations
+<!-- Critérios de aceite - o que precisa estar pronto? -->
+- O conteiner deve conter todo o ferramental e os Makefile  necessários
+
+## Requested Output Depth
+<!-- Qual nível de detalhe esperado? -->
+- [ ] High-level only
+- [X ] High-level + execution-minimum detail
+- [ ] Full architectural detail
+
+---
+**Created by:** RafaelGCPP 
+**Date:** 26/Jun/2026

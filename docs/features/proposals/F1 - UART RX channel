@@ -1,0 +1,78 @@
+## Feature Name
+Canal RX da UART
+
+
+## Business Goal
+Nas primeiras fases do desenvolvimento o único I/O disponível será a porta serial. Enquanto no momento podemos escrever mensagens, não é possivel solicitar alguma interação como usuário, o que impedirá o desenvolvimento da funcionalidade de monitor.
+
+## Priority
+<!-- Selecione uma opção: P0 / P1 / P2 -->
+- [X] P0 - Crítico
+- [ ] P1 - Alto
+- [ ] P2 - Médio
+
+## In Scope
+- realizar ajustes necessários no start.S para mover a seção .data para RAM
+- Criação das funções de firmware para receber na porta serial 
+- Função para verificar a disponibilidade de caractere no buffer
+- Teste de integração: substituir o loop infinito "> alive" por um comando simples que responda   "alive"
+
+## Out of Scope
+<!-- O que explicitamente NÃO faz parte? -->
+- Implementar o monitor assembly
+- Modificações no dev conteiner para permitir a sintese final do FPGA 
+
+## Constraints
+### Time
+<!-- Deadline ou janela de tempo? -->
+- This feature must be implemented before adding DDR3 support
+- This feature must be ready before developing a memory monitor
+
+### Compatibility
+<!-- Restrições de compatibilidade com versões, hardware, etc -->
+- Manter a compatibilidade através do uso de System Verilog e Verilog nas últimas versões
+- C23 e C++23 preferido para o firmware e simulação.
+- O firmware deve deve ter compilação condicional para suportar a UART 16650 usada pelo QEMU ou a UARTRX verilog para o Verilator e FPGA
+
+### Hardware/Resource
+<!-- Limitações de hardware ou recursos -->
+- Deve ser possível usá-la no QEMU para o teste do firmare, ou seja, a simulação no QEMU deve ter o mesmo comportamento que no Verilator.
+- Considerar que deve funcionar também no Verilator para um teste sistêmico, ou seja, o Verilator deve ser capaz de compilar e executar a simulação
+- Preparar para a síntese no GoWin: as funcionalidades desenvolvidas exclusivamente para suportar as simulações em verilator e qemu devem estar corretamente delimitadas por compilação condicional
+- utilizar o módulo  verilog uart rx já na base de código para verilator/FPGA. 
+
+### Tooling
+<!-- Restrições de ferramentas ou dependências -->
+- QEMU
+- Verilator
+- GoWin IDE (depende de ação do usuário. Não há command line ainda no dev conteiner)
+
+## Dependencies or Related Features
+### Current Features
+<!-- Features existentes que esta depende? -->
+- UART TX must be present
+
+### Possible Future Features
+<!-- Features futuras relacionadas? -->
+- Monitor de memória
+
+
+## Acceptance Expectations
+<!-- Critérios de aceite - o que precisa estar pronto? -->
+- No QEMU e no Verilator o firmware deve imprimir o banner e esperar uma tecla específica do usuário (exemplo 'h'). 
+- O prompt > deve ecoar o comando digitado (ex: 'h'), pular uma linha e imprimir "alive", numa espécie de mock do que será o help do monitor.
+
+## Requested Output Depth
+<!-- Qual nível de detalhe esperado? -->
+- [ ] High-level only
+- [ ] High-level + execution-minimum detail
+- [x] Full architectural detail
+
+## Agent Interaction
+<!-- Se o arquiteto precisar de mais contexto, a conversa deve continuar nos comentários desta issue -->
+- [X ] Autorizo follow-ups do `solution-architect` nos comentários desta issue
+- [ X] Vou responder dúvidas em aberto diretamente nesta issue
+
+---
+**Created by:** RafaelGCPP
+**Date:** 26/Jun/2026
