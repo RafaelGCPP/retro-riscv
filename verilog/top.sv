@@ -1,9 +1,9 @@
+`include "defines.vh"
+
 module top (
     input  logic clk27mhz,
     output logic uart_txd
 );
-
-
 
     logic lock;
 
@@ -12,7 +12,7 @@ module top (
         `ifndef FIRMWARE_FILE_PATH
             `define FIRMWARE_FILE_PATH "../firmware/build/verilator/firmware.hex"
         `endif
-        
+
         localparam FREQ=27_000_000;        
 
         logic clk;
@@ -252,7 +252,7 @@ module top (
 
     memory_rom #(
         .ADDR_WIDTH (12),                 // 2^12 words = 16 KiB
-        .INIT_FILE  (FIRMWARE_FILE)
+        .INIT_FILE  (`FIRMWARE_FILE_PATH)
     ) rom0 (
         .clk    (clk),
         .resetn (resetn),

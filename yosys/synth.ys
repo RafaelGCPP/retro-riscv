@@ -1,0 +1,12 @@
+# synth.ys
+# Não lemos arquivos aqui, eles serão injetados via linha de comando
+
+# Estabelecer a hierarquia (substitua pelo nome do seu módulo TOP)
+hierarchy -top top
+
+# Otimizações lógicas
+proc
+opt
+fsm
+opt
+

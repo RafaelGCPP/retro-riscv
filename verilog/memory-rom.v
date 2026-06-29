@@ -1,4 +1,5 @@
 `default_nettype none
+`include "defines.vh"
 
 // ============================================================
 // ROM simples para PicoRV32 / Verilator / BRAM inference
