@@ -9,9 +9,13 @@
 //   - endereço recebido é relativo à base da ROM, em bytes.
 // ============================================================
 
+`ifndef FIRMWARE_FILE_PATH
+`define FIRMWARE_FILE_PATH "firmware.hex"
+`endif 
+
 module memory_rom #(
     parameter integer ADDR_WIDTH = 12,          // palavras de 32 bits
-    parameter         INIT_FILE  = "firmware.hex"
+    parameter         INIT_FILE  = `FIRMWARE_FILE_PATH
 ) (
     input  wire        clk,
     input  wire        resetn,

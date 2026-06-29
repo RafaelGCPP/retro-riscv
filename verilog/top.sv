@@ -3,19 +3,27 @@ module top (
     output logic uart_txd
 );
 
+
+
     logic lock;
 
     `ifdef VERILATOR
-        localparam FREQ=27_000_000;
-        localparam FIRMWARE_FILE = "../firmware/build/verilator/firmware.hex";
+
+        `ifndef FIRMWARE_FILE_PATH
+            `define FIRMWARE_FILE_PATH "../firmware/build/verilator/firmware.hex"
+        `endif
+        
+        localparam FREQ=27_000_000;        
 
         logic clk;
         assign clk = clk27mhz;
         assign lock = 1'b1;
     `else
-
+        `ifndef FIRMWARE_FILE_PATH
+            `define FIRMWARE_FILE_PATH "../firmware/build/tang20k/firmware.hex"
+        `endif
+        
         localparam FREQ=101_250_000; 
-        localparam FIRMWARE_FILE = "../firmware/build/tang20k/firmware.hex";
 
         Gowin_rPLL pll(
         .clkout(clk_x4),    // 405 Mhz
@@ -25,6 +33,8 @@ module top (
         .lock(lock)
         ); 
     `endif
+
+    localparam FIRMWARE_FILE = `FIRMWARE_FILE_PATH;
 
     // ------------------------------------------------------------
     // Reset interno simples por contador
