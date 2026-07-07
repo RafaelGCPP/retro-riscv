@@ -22,6 +22,7 @@ SECTIONS
         *(.data*)
         __data_end = .;
     } > ram
+    __data_lma_start = LOADADDR(.data);
 
     .bss : ALIGN(4)
     {

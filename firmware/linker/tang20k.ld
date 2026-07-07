@@ -24,6 +24,7 @@ SECTIONS
         *(.data*)
         __data_end = .;
     } > sram AT > rom
+    __data_lma_start = LOADADDR(.data);
 
     .bss : ALIGN(4)
     {

@@ -6,6 +6,12 @@
   },
   "workspaceMount": "source=${localWorkspaceFolder},target=/rv32-bios,type=bind,consistency=cached",
   "workspaceFolder": "/rv32-bios",
+  "runArgs": [
+    "--userns=keep-id"
+  ],
+  "containerEnv": {
+    "HOME": "/home/vscode"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
