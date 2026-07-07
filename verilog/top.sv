@@ -79,14 +79,20 @@ module top (
     // Decodificação MMIO para UART 
     // ------------------------------------------------------------
 
-    localparam logic [31:0] UART_TX_ADDR = 32'h1000_0000; // UART
+    localparam logic [31:0] UART_TXDATA_ADDR = 32'h1000_0000; // UART TX data
+    localparam logic [31:0] UART_RXDATA_ADDR = 32'h1000_0004; // UART RX data
+    localparam logic [31:0] UART_STATUS_ADDR = 32'h1000_0008; // UART status
 
-    logic uart_select;
+    logic uart_txdata_select;
+    logic uart_rxdata_select;
+    logic uart_status_select;
     logic uart_write;
     logic uart_idle;
 
-    assign uart_select = mem_valid && (mem_addr == UART_TX_ADDR);
-    assign uart_write  = uart_select && (mem_wstrb != 4'b0000);
+    assign uart_txdata_select = mem_valid && (mem_addr == UART_TXDATA_ADDR);
+    assign uart_rxdata_select = mem_valid && (mem_addr == UART_RXDATA_ADDR);
+    assign uart_status_select = mem_valid && (mem_addr == UART_STATUS_ADDR);
+    assign uart_write  = uart_txdata_select && (mem_wstrb != 4'b0000);
     assign uart_idle   = !uart_tx_busy;
 
     assign uart_data   = mem_wdata[7:0];
@@ -124,21 +130,27 @@ module top (
 
     assign rom_select =
         mem_valid &&
-        !uart_select &&
+        !uart_txdata_select &&
+        !uart_rxdata_select &&
+        !uart_status_select &&
         !sim_exit_select &&
         (mem_addr >= ROM_BASE) &&
         (mem_addr <  ROM_BASE + ROM_SIZE);
 
     assign ram_select =
         mem_valid &&
-        !uart_select &&
+        !uart_txdata_select &&
+        !uart_rxdata_select &&
+        !uart_status_select &&
         !sim_exit_select &&
         (mem_addr >= RAM_BASE) &&
         (mem_addr <  RAM_BASE + RAM_SIZE);
 
     assign unmapped_select =
         mem_valid &&
-        !uart_select &&
+        !uart_txdata_select &&
+        !uart_rxdata_select &&
+        !uart_status_select &&
         !sim_exit_select &&
         !rom_select &&
         !ram_select;
@@ -348,11 +360,19 @@ module top (
                 // Responde imediatamente.
                 mem_ready = 1'b1;
                 mem_rdata = 32'h0000_0000;
-            end else if (uart_select) begin
-                // Leitura da UART retorna bit 0 = transmissor livre.
-                // Escrita espera a UART ficar livre.
+            end else if (uart_txdata_select) begin
+                // UART_TXDATA: write triggers TX
+                // For backward compatibility, reads return status bits (TX_IDLE in bit 0)
                 mem_ready = (mem_wstrb == 4'b0000) || uart_idle;
                 mem_rdata = {31'b0, uart_idle};
+            end else if (uart_rxdata_select) begin
+                // UART_RXDATA: read returns 0x00000000 (stub - RX not wired yet)
+                mem_ready = 1'b1;
+                mem_rdata = 32'h0000_0000;
+            end else if (uart_status_select) begin
+                // UART_STATUS: bit 0 = TX_IDLE, bit 1 = RX_VALID (stub)
+                mem_ready = 1'b1;
+                mem_rdata = {30'b0, 1'b0, uart_idle};
             end else if (rom_select) begin
                 mem_ready = rom_ready;
                 mem_rdata = rom_rdata;

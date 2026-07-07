@@ -15,6 +15,7 @@ verilator: copy-firmware $(VERILOG_SOURCES)
 	  --sv \
 	  -DVERILATOR \
 	  -Wno-fatal \
+	  -I$(VERILOG_DIR) \
 	  $(VERILOG_DIR)/*.sv $(VERILOG_DIR)/*.v
 	./obj_dir/Vtop
 	printf '\n'
