@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "uart.h"
 
 #define UART_BASE 0x10000000u
@@ -43,4 +44,24 @@ void uart_puts(const char *s)
     while(*s) {
         uart_putc(*s++);
     }
+}
+
+bool uart_rx_available(void)
+{
+    return (mmio_read8(UART_BASE + UART_LSR) & UART_LSR_RX_READY) != 0;
+}
+
+char uart_getc_nowait(void)
+{
+    if (!uart_rx_available()) {
+        return '\0';
+    }
+    return (char)(mmio_read8(UART_BASE + UART_RBR) & 0xFFu);
+}
+
+char uart_getc(void)
+{
+    while (!uart_rx_available()) {
+    }
+    return (char)(mmio_read8(UART_BASE + UART_RBR) & 0xFFu);
 }

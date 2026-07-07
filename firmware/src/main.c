@@ -25,24 +25,26 @@ int main(void)
 
     uart_puts("\n");
     uart_puts("Tang 20K RV32 BIOS\n");
-    uart_puts("Build target running.\n");
+    uart_puts("UART RX enabled. Press 'h' for help.\n");
 
     uart_puts("Test hex: 0x");
     print_hex32(0x1234abcd);
     uart_puts("\n");
 
+    uart_puts("> ");
+
     while(1) {
-        uart_puts("> ");
-
-        /*
-         * Por enquanto só um heartbeat bobo.
-         * Depois colocamos getchar(), parser e comandos.
-         */
-        for(volatile uint32_t i = 0; i < HEARTBEAT_COUNT; ++i) {
+        if (uart_rx_available()) {
+            char c = uart_getc();
+            uart_putc(c);
+            uart_putc('\n');
+            
+            if (c == 'h' || c == 'H') {
+                uart_puts("alive\n");
+                simulation_exit(0);
+                break;
+            }
         }
-
-        uart_puts("alive\n");
-        simulation_exit(0);
     }
 
     return 0;

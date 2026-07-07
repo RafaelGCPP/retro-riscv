@@ -115,8 +115,7 @@ qemu: $(ELF)
 		-machine virt \
 		-nographic \
 		-bios none \
-		-kernel $(ELF) \
-		-S -s
+		-kernel $(ELF)
 
 dump: $(DUMP)
 	less $(DUMP)
