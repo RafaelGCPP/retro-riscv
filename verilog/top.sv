@@ -2,6 +2,7 @@
 
 module top (
     input  logic clk27mhz,
+    input  logic uart_rxd,
     output logic uart_txd
 );
 
@@ -74,6 +75,12 @@ module top (
     logic       uart_enable;
     logic [7:0] uart_data;
 
+    logic       uart_rx_valid;
+    logic [7:0] uart_rx_data_wire;
+    logic [7:0] uart_rx_data_reg;
+    logic       uart_rx_valid_reg;
+    logic       uart_rxdata_read;
+
 
     // ------------------------------------------------------------
     // Decodificação MMIO para UART 
@@ -94,6 +101,7 @@ module top (
     assign uart_status_select = mem_valid && (mem_addr == UART_STATUS_ADDR);
     assign uart_write  = uart_txdata_select && (mem_wstrb != 4'b0000);
     assign uart_idle   = !uart_tx_busy;
+    assign uart_rxdata_read = uart_rxdata_select && (mem_wstrb == 4'b0000);
 
     assign uart_data   = mem_wdata[7:0];
     assign uart_enable = uart_write && mem_wstrb[0] && uart_idle;
@@ -325,6 +333,37 @@ module top (
     );
 
     // ------------------------------------------------------------
+    // UART RX
+    // ------------------------------------------------------------
+
+    uart_rx #(
+        .CLK_HZ       (FREQ),
+        .BIT_RATE     (115_200),
+        .PAYLOAD_BITS (8)
+    ) uart_rx_inst (
+        .clk          (clk),
+        .resetn       (resetn),
+        .uart_rxd     (uart_rxd),
+        .uart_rx_en   (1'b1),
+        .uart_rx_break(),
+        .uart_rx_valid (uart_rx_valid),
+        .uart_rx_data  (uart_rx_data_wire)
+    );
+
+    // RX data latch
+    always_ff @(posedge clk) begin
+        if (!resetn) begin
+            uart_rx_data_reg  <= 8'h00;
+            uart_rx_valid_reg <= 1'b0;
+        end else if (uart_rx_valid) begin
+            uart_rx_data_reg  <= uart_rx_data_wire;
+            uart_rx_valid_reg <= 1'b1;
+        end else if (uart_rxdata_read) begin
+            uart_rx_valid_reg <= 1'b0;
+        end
+    end
+
+    // ------------------------------------------------------------
     // simulation pseudo-device
     // ------------------------------------------------------------
 
@@ -366,13 +405,13 @@ module top (
                 mem_ready = (mem_wstrb == 4'b0000) || uart_idle;
                 mem_rdata = {31'b0, uart_idle};
             end else if (uart_rxdata_select) begin
-                // UART_RXDATA: read returns 0x00000000 (stub - RX not wired yet)
+                // UART_RXDATA: read returns received data
                 mem_ready = 1'b1;
-                mem_rdata = 32'h0000_0000;
+                mem_rdata = {24'b0, uart_rx_data_reg};
             end else if (uart_status_select) begin
-                // UART_STATUS: bit 0 = TX_IDLE, bit 1 = RX_VALID (stub)
+                // UART_STATUS: bit 0 = TX_IDLE, bit 1 = RX_VALID
                 mem_ready = 1'b1;
-                mem_rdata = {30'b0, 1'b0, uart_idle};
+                mem_rdata = {30'b0, uart_rx_valid_reg, uart_idle};
             end else if (rom_select) begin
                 mem_ready = rom_ready;
                 mem_rdata = rom_rdata;
