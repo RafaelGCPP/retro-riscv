@@ -60,7 +60,7 @@ Key files:
 - `verilog/memory-rom.v` — ROM block and firmware initialization behavior
 - `verilog/memory-ram.v` — RAM block implementation
 - `verilog/uart-tx.v` — UART transmitter peripheral logic
-- `verilog/uart-rx.v` — UART receiver peripheral logic
+- `verilog/uart-rx.v` — UART receiver peripheral logic (integrated in top.sv)
 
 Responsibility boundary:
 - **Defines hardware behavior** and memory/MMIO visibility to firmware.
@@ -77,6 +77,7 @@ Contains firmware/BIOS and target-specific build logic.
 Key elements:
 - `firmware/Makefile` — cross-compilation and target selection (`TARGET=`)
 - `firmware/src/` — startup assembly, main loop, UART drivers and runtime logic
+  - `start.S` — boot code (copies .data section from ROM to RAM, clears .bss)
 - `firmware/linker/` — linker scripts (`tang20k.ld`, `qemu.ld`, etc.)
 - `firmware/tools/` — utilities (e.g., binary/ELF → HEX transformation)
 

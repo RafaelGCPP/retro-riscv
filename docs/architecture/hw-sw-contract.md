@@ -51,7 +51,7 @@ All addresses are 32-bit physical addresses.
 | ROM | `0x0000_0000` | `0x0000_3FFF` | 16 KiB | Read (exec/read) | RTL + build flow | Firmware/BIOS image |
 | RAM | `0x0001_0000` | `0x0001_1FFF` | 8 KiB | Read/Write | RTL | Runtime data/stack |
 | Stack initial SP convention | `0x0001_2000` | `0x0001_2000` | n/a | n/a | Firmware | Initial SP value convention |
-| UART TX MMIO | `0x1000_0000` | `0x1000_0000` | 4 bytes logical register window | Write-oriented | RTL + firmware driver | Write low byte to transmit |
+| UART MMIO | `0x1000_0000` | `0x1000_0008` | 12 bytes logical (3 registers) | RW (see 5.1–5.3) | RTL + firmware driver | TX/RX/Status interface |
 | Verilator pseudo-device | `0x1000_00FC` | `0x1000_00FC` | 4 bytes | Impl-defined | Verilator harness path | Simulation helper output |
 
 ### 4.1 Addressing Rules
@@ -66,25 +66,68 @@ All addresses are 32-bit physical addresses.
 
 ## 5. MMIO Register Contract
 
-## 5.1 UART TX Data Register
+### 5.1 UART_TXDATA Register (Write UART TX)
 
 - **Address:** `0x1000_0000`
 - **Name:** `UART_TXDATA`
-- **Access:** write
+- **Access:** write-only
 - **Write semantics:**
   - `write[7:0]` is transmitted as one UART frame (8-N-1)
-  - upper bits are ignored unless later documented otherwise
-- **Read semantics:** undefined / do not rely on return value
+  - upper bits are ignored
+- **Read semantics:** reading returns `0x00000000` (undefined)
 - **Reset value:** n/a (transmit datapath)
+- **Side effects:** initiates transmission when written
 
 Recommended C declaration:
 
 ```c
 #define UART_TXDATA_ADDR 0x10000000u
-#define UART_TXDATA (*(volatile unsigned int*)UART_TXDATA_ADDR)
+#define UART_TXDATA (*(volatile uint32_t*)UART_TXDATA_ADDR)
 ```
 
-## 5.2 Verilator Pseudo Output Register
+### 5.2 UART_RXDATA Register (Read UART RX)
+
+- **Address:** `0x1000_0004`
+- **Name:** `UART_RXDATA`
+- **Access:** read-only
+- **Read semantics:**
+  - `read[7:0]` contains the last received UART byte
+  - `read[31:8]` are always zero
+  - reading clears the RX_VALID flag in UART_STATUS
+- **Write semantics:** writes are ignored
+- **Reset value:** n/a (RX data latch)
+- **Side effects:** reading clears RX_VALID status flag
+
+Recommended C declaration:
+
+```c
+#define UART_RXDATA_ADDR 0x10000004u
+#define UART_RXDATA (*(volatile uint32_t*)UART_RXDATA_ADDR)
+```
+
+### 5.3 UART_STATUS Register (TX/RX Status)
+
+- **Address:** `0x1000_0008`
+- **Name:** `UART_STATUS`
+- **Access:** read-only
+- **Read semantics:** Returns status flags:
+  - Bit 0 (TX_IDLE): 1 = TX ready to accept next byte, 0 = TX busy
+  - Bit 1 (RX_VALID): 1 = RX data available, 0 = no data ready
+  - Bits [31:2]: reserved, always zero
+- **Write semantics:** writes are ignored
+- **Reset value:** `0x0000_0001` (TX idle, no RX data)
+- **Side effects:** reading does not affect state (status only)
+
+Recommended C declaration:
+
+```c
+#define UART_STATUS_ADDR 0x10000008u
+#define UART_STATUS      (*(volatile uint32_t*)UART_STATUS_ADDR)
+#define UART_STATUS_TX_IDLE  0x01u
+#define UART_STATUS_RX_VALID 0x02u
+```
+
+### 5.4 Verilator Pseudo Output Register
 
 - **Address:** `0x1000_00FC`
 - **Name:** `SIM_PSEUDO_OUT`

@@ -55,7 +55,7 @@ As currently documented in the repository:
 - `0x0000_0000 – 0x0000_3FFF` → ROM (16 KiB)
 - `0x0001_0000 – 0x0001_1FFF` → RAM (8 KiB)
 - `0x0001_2000` → initial stack pointer convention
-- `0x1000_0000` → UART TX MMIO data register (write low byte)
+- `0x1000_0000 – 0x1000_0008` → UART MMIO (TX/RX/Status interface)
 - `0x1000_00FC` → Verilator pseudo-output device
 
 ### 3.4 ROM
@@ -73,10 +73,28 @@ As currently documented in the repository:
 
 ### 3.6 UART Path
 
-- TX module: `verilog/uart-tx.v`
-- RX module: `verilog/uart-rx.v`
-- Firmware-visible device: TX MMIO at `0x1000_0000`
-- Default framing: 8-N-1 (as documented)
+**TX (Transmit) Path:**
+- Module: `verilog/uart-tx.v`
+- Interface: UART_TXDATA register at `0x1000_0000` (write-only)
+- Firmware writes character to `UART_TXDATA[7:0]`
+- TX status available via `UART_STATUS[0]` (TX_IDLE flag)
+- Default framing: 8-N-1 at 115200 baud
+
+**RX (Receive) Path:**
+- Module: `verilog/uart-rx.v` (integrated into top.sv)
+- Physical input: `uart_rxd` pin
+- Data flow: `uart_rxd` → uart_rx module → single-byte latch → MMIO read
+- RX data interface:
+  - Read character from `UART_RXDATA` at `0x1000_0004` (read-only)
+  - Check availability via `UART_STATUS[1]` (RX_VALID flag)
+  - Reading UART_RXDATA automatically clears RX_VALID
+- Buffering: Single-byte latch (polling mode only, no FIFO)
+- Default framing: 8-N-1 at 115200 baud
+
+**Implementation Notes:**
+- Both TX and RX share UART_STATUS register for control flow
+- No interrupt support in current implementation
+- Firmware must poll status flags for ready conditions
 
 ### 3.7 Clock/Reset
 
@@ -99,8 +117,10 @@ Firmware is organized under `firmware/` with:
 
 Current firmware acts as a minimal BIOS-style monitor seed:
 - startup code initializes machine context
+- .data section is copied from ROM to RAM during boot (before main)
 - UART is configured/used for console output
-- firmware prints banner/alive prompt and loops
+- firmware prints banner/alive prompt and enters interactive loop
+- RX mode: polls UART_STATUS[1] for incoming characters
 
 ### 4.3 Target Abstraction
 
