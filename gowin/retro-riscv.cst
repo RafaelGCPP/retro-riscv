@@ -5,9 +5,11 @@
 //Part Number: GW2A-LV18PG256C8/I7
 //Device: GW2A-18
 //Device Version: C
-//Created Time: Wed 06 24 16:56:30 2026
+//Created Time: Wed 07 08 20:55:55 2026
 
 IO_LOC "uart_txd" M11;
 IO_PORT "uart_txd" IO_TYPE=LVCMOS33 PULL_MODE=UP DRIVE=8 BANK_VCCIO=3.3;
+IO_LOC "uart_rxd" T13;
+IO_PORT "uart_rxd" IO_TYPE=LVCMOS33 PULL_MODE=NONE BANK_VCCIO=3.3;
 IO_LOC "clk27mhz" H11;
 IO_PORT "clk27mhz" IO_TYPE=LVCMOS33 PULL_MODE=UP BANK_VCCIO=3.3;

@@ -42,7 +42,7 @@ int main(void)
             if (c == 'h' || c == 'H') {
                 uart_puts("alive\n");
                 simulation_exit(0);
-                break;
+                //break;
             }
         }
     }

@@ -10,20 +10,13 @@ module top (
 
     `ifdef VERILATOR
 
-        `ifndef FIRMWARE_FILE_PATH
-            `define FIRMWARE_FILE_PATH "../firmware/build/verilator/firmware.hex"
-        `endif
-
         localparam FREQ=27_000_000;        
 
         logic clk;
         assign clk = clk27mhz;
         assign lock = 1'b1;
     `else
-        `ifndef FIRMWARE_FILE_PATH
-            `define FIRMWARE_FILE_PATH "../firmware/build/tang20k/firmware.hex"
-        `endif
-        
+       
         localparam FREQ=101_250_000; 
 
         Gowin_rPLL pll(
